@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Админ</title>
+</head>
+<body>
+    <% if (!auth) { %>
+        <form action="/admin" method="POST">
+            <input type="password" name="password" placeholder="Админ пароль">
+            <button type="submit">Войти</button>
+        </form>
+    <% } else { %>
+        <h1>Панель администратора</h1>
+        <table border="1">
+            <tr>
+                <th>Логин</th>
+                <th>Email</th>
+                <th>Действия</th>
+            </tr>
+            <% users.forEach(user => { %>
+                <tr>
+                    <form action="/admin/update/<%= user._id %>" method="POST">
+                        <td><input name="username" value="<%= user.username %>"></td>
+                        <td><input name="email" value="<%= user.email %>"></td>
+                        <td>
+                            <input type="password" name="password" placeholder="Новый пароль">
+                            <button type="submit">Обновить</button>
+                        </td>
+                    </form>
+                    <td>
+                        <form action="/admin/delete/<%= user._id %>" method="POST">
+                            <button type="submit">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }); %>
+        </table>
+        
+        <h2>Создать пользователя</h2>
+        <form action="/admin/create" method="POST">
+            <input type="text" name="username" placeholder="Логин">
+            <input type="email" name="email" placeholder="Email">
+            <input type="password" name="password" placeholder="Пароль">
+            <button type="submit">Создать</button>
+        </form>
+        
+        <a href="/logout">Выйти</a>
+    <% } %>
+</body>
+</html>

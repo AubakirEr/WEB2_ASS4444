@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Пользователь</title>
+</head>
+<body>
+    <h1>Профиль: <%= user.username %></h1>
+    <p>Email: <%= user.email %></p>
+    
+    <h2>Смена пароля:</h2>
+    <form action="/user/change-password" method="POST">
+        <input type="password" name="oldPassword" placeholder="Старый пароль">
+        <input type="password" name="newPassword" placeholder="Новый пароль">
+        <button type="submit">Сменить</button>
+    </form>
+
+    <h2>Загрузка изображений</h2>
+    <form action="/user/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*">
+        <button type="submit">Загрузить</button>
+    </form>
+
+    <div>
+        <% user.images.forEach((img, i) => { %>
+            <img src="data:image/png;base64,<%= img %>" alt="Image <%= i %>" style="max-width: 200px;">
+        <% }); %>
+    </div>
+
+    <a href="/logout">Выйти</a>
+</body>
+</html>
